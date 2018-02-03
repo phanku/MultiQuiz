@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 
@@ -37,6 +38,9 @@ public class QuizActivity extends AppCompatActivity {
 
     // The current question.
     private Question mCurrentQuestion;
+
+    //
+    private Score mScore = new Score();
 
 
     // -- View -- //
@@ -103,6 +107,8 @@ public class QuizActivity extends AppCompatActivity {
                 new Answer(R.string.question_answer_0_2, true),
                 new Answer(R.string.question_answer_0_3, false)
         );
+
+        Collections.shuffle(answers);
 
         question = new Question(R.string.question_0, answers);
 
@@ -180,9 +186,14 @@ public class QuizActivity extends AppCompatActivity {
     }
 
     private void processSelectedAnswer(int buttonNumber) {
-        if (mCurrentQuestion.getAnswers().get(buttonNumber).isCorrect()) {
 
+        for (Answer myAnswer : mCurrentQuestion.getAnswers()) {
+            myAnswer.deselect();
         }
+
+        mCurrentQuestion.getAnswers().get(buttonNumber).select();
+
+        refreshView();
     }
 
     /**
@@ -251,6 +262,7 @@ public class QuizActivity extends AppCompatActivity {
      */
     private void processHintRequest() {
         List<Answer> myCurrentAnswers = mCurrentQuestion.getAnswers();
+        Answer myCurrentAnswer;
 
         Random random = new Random();
 
@@ -258,9 +270,10 @@ public class QuizActivity extends AppCompatActivity {
         boolean answerDisabled = false;
 
         do {
-
+            myCurrentAnswer = myCurrentAnswers.get(answerToDisable);
             answerToDisable = random.nextInt((MAX_NUMBER_OF_HINTS_PER_QUESTION - 1) + 1) + 1;
-            if (myCurrentAnswers.get(answerToDisable).isEnabled()) {
+
+            if (!myCurrentAnswer.isCorrect() && myCurrentAnswer.isEnabled()) {
                 myCurrentAnswers.get(answerToDisable).setEnabled(false);
                 answerDisabled = true;
                 mCurrentQuestion.addHint();
