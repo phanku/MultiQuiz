@@ -38,6 +38,7 @@ public class QuizActivity extends AppCompatActivity {
     // The current question.
     private Question mCurrentQuestion;
 
+
     // -- View -- //
 
     // Reference to the text view on the screen.
@@ -79,6 +80,7 @@ public class QuizActivity extends AppCompatActivity {
         Button button;
         Question question;
 
+        // Collecting the references to the answer buttons.
         mAnswerButtons = Arrays.asList(
                 findViewById(R.id.answer_button_0),
                 findViewById(R.id.answer_button_1),
@@ -86,6 +88,7 @@ public class QuizActivity extends AppCompatActivity {
                 findViewById(R.id.answer_button_3)
         );
 
+        // Binding to buttons to the action listeners.
         mAnswerButtons.get(0).setOnClickListener(view -> processSelectedAnswer(0));
         mAnswerButtons.get(1).setOnClickListener(view -> processSelectedAnswer(1));
         mAnswerButtons.get(2).setOnClickListener(view -> processSelectedAnswer(2));
@@ -103,20 +106,43 @@ public class QuizActivity extends AppCompatActivity {
 
         question = new Question(R.string.question_0, answers);
 
+        mCurrentQuestion = question;
         mQuestionBank.add(question);
 
+        answers = Arrays.asList(
+                new Answer(R.string.question_answer_1_0, false),
+                new Answer(R.string.question_answer_1_1, false),
+                new Answer(R.string.question_answer_1_2, true),
+                new Answer(R.string.question_answer_1_3, false)
+        );
 
-//        button = findViewById(R.id.answer_button_0);
-//        button.setText("bob");
-//        setDefaultButtonStyle(button);
-//        answer = new Answer(button, false);
-//        button.setOnClickListener(view -> selectAnswerButton(0));
-//
-//        mAnswers.add(answer);
+        question = new Question(R.string.question_1, answers);
 
+        mQuestionBank.add(question);
 
+        answers = Arrays.asList(
+                new Answer(R.string.question_answer_2_0, false),
+                new Answer(R.string.question_answer_2_1, false),
+                new Answer(R.string.question_answer_2_2, true),
+                new Answer(R.string.question_answer_2_3, false)
+        );
 
+        question = new Question(R.string.question_2, answers);
 
+        mQuestionBank.add(question);
+
+        answers = Arrays.asList(
+                new Answer(R.string.question_answer_3_0, false),
+                new Answer(R.string.question_answer_3_1, false),
+                new Answer(R.string.question_answer_3_2, true),
+                new Answer(R.string.question_answer_3_3, false)
+        );
+
+        question = new Question(R.string.question_3, answers);
+
+        mQuestionBank.add(question);
+
+        refreshView();
     }
 
     @Override
@@ -154,7 +180,9 @@ public class QuizActivity extends AppCompatActivity {
     }
 
     private void processSelectedAnswer(int buttonNumber) {
+        if (mCurrentQuestion.getAnswers().get(buttonNumber).isCorrect()) {
 
+        }
     }
 
     /**
