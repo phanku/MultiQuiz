@@ -1,3 +1,33 @@
 <resources>
     <string name="app_name">MultiQuiz</string>
+
+    <string name="question_text_0">What temperature is the same in Celsius and Fahrenheit?</string>
+    <string name="question_answer_0_0">+40</string>
+    <string name="question_answer_0_1">0</string>
+    <string name="question_answer_0_2">-40</string>
+    <string name="question_answer_0_3">+100</string>
+
+    <string name="question_text_1">What temperature is the same in Celsius and Fahrenheit?</string>
+    <string name="question_answer_1_0">+40</string>
+    <string name="question_answer_1_1">0</string>
+    <string name="question_answer_1_2">-40</string>
+    <string name="question_answer_1_3">+100</string>
+
+
+    <string name="question_text_2">What temperature is the same in Celsius and Fahrenheit?</string>
+    <string name="question_answer_2_0">+40</string>
+    <string name="question_answer_2_1">0</string>
+    <string name="question_answer_2_2">-40</string>
+    <string name="question_answer_2_3">+100</string>
+
+    <string name="question_text_3">What temperature is the same in Celsius and Fahrenheit?</string>
+    <string name="question_answer_3_0">+40</string>
+    <string name="question_answer_3_1">0</string>
+    <string name="question_answer_3_2">-40</string>
+    <string name="question_answer_3_3">+100</string>
+
+
+
+
+
 </resources>
