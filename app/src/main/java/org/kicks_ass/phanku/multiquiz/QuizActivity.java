@@ -9,8 +9,9 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import java.util.ArrayList;
-import java.util.Iterator;
+import java.util.Arrays;
 import java.util.List;
+import java.util.Random;
 
 public class QuizActivity extends AppCompatActivity {
 
@@ -22,43 +23,96 @@ public class QuizActivity extends AppCompatActivity {
     private static final int SELECTED_BUTTON_COLOR = 0xffcb297b;
     private static final int DEFAULT_BUTTON_TEXT_COLOR = Color.WHITE;
     private static final int SELECTED_BUTTON_TEXT_COLOR = Color.WHITE;
+    private static final int DISABLED_BUTTON_TEXT_COLOR = Color.GRAY;
+    private static final int MAX_NUMBER_OF_HINTS_PER_QUESTION = 3;
+
+
+    // -- Model -- //
 
     // The question bank.
-    private Question[] mQuestionBank = new Question[] {
-
-    };
+    private List<Question> mQuestionBank = new ArrayList<Question>();
 
     // The answers that are currently being displayed.
     private List<Answer> mAnswers = new ArrayList<>();
 
+    // The current question.
+    private Question mCurrentQuestion;
+
+    // -- View -- //
+
     // Reference to the text view on the screen.
     private TextView mQuestionTextView;
+
+    // Reference to the answer buttons.
+    private List<Button> mAnswerButtons = new ArrayList<>();
+
+    // Reference to the hint and submit button on the view.
+    private Button mHintButton;
+
+    // Reference to the submit button.
+    private Button mSubmitButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_quiz);
 
+        // Sending debug message.
         Log.d(TAG, "onCreate(Bundle) called");
 
+        // Binding to the show hint button.
+        mHintButton = findViewById(R.id.hint_button);
+        setDefaultButtonStyle(mHintButton);
+        mHintButton.setOnClickListener(view -> {
+            processHintRequest();
+        });
+
+        // Binding to the submit button.
+        mSubmitButton = findViewById(R.id.submit_button);
+        disableButton(mSubmitButton);
+        mSubmitButton.setOnClickListener(view -> {
+            processQuestionSubmission();
+        });
+
         // Declaring local variables.
-        Answer answer;
+        List<Answer> answers;
         Button button;
+        Question question;
 
-        button = findViewById(R.id.hint_button);
-        setDefaultButtonStyle(button);
+        mAnswerButtons = Arrays.asList(
+                findViewById(R.id.answer_button_0),
+                findViewById(R.id.answer_button_1),
+                findViewById(R.id.answer_button_2),
+                findViewById(R.id.answer_button_3)
+        );
 
+        mAnswerButtons.get(0).setOnClickListener(view -> processSelectedAnswer(0));
+        mAnswerButtons.get(1).setOnClickListener(view -> processSelectedAnswer(1));
+        mAnswerButtons.get(2).setOnClickListener(view -> processSelectedAnswer(2));
+        mAnswerButtons.get(3).setOnClickListener(view -> processSelectedAnswer(3));
 
+        // Fetching the reference to the question text view.
         mQuestionTextView = findViewById(R.id.question_text_view);
 
+        answers = Arrays.asList(
+                new Answer(R.string.question_answer_0_0, false),
+                new Answer(R.string.question_answer_0_1, false),
+                new Answer(R.string.question_answer_0_2, true),
+                new Answer(R.string.question_answer_0_3, false)
+        );
 
-        button = findViewById(R.id.answer_button_0);
-        button.setText("bob");
-        setDefaultButtonStyle(button);
-        answer = new Answer(button, false);
-        button.setOnClickListener(view -> selectAnswerButton(0));
+        question = new Question(R.string.question_0, answers);
 
-        mAnswers.add(answer);
+        mQuestionBank.add(question);
+
+
+//        button = findViewById(R.id.answer_button_0);
+//        button.setText("bob");
+//        setDefaultButtonStyle(button);
+//        answer = new Answer(button, false);
+//        button.setOnClickListener(view -> selectAnswerButton(0));
+//
+//        mAnswers.add(answer);
 
 
 
@@ -95,28 +149,110 @@ public class QuizActivity extends AppCompatActivity {
         Log.d(TAG, "onDestroy() called");
     }
 
+    private void processQuestionSubmission() {
+
+    }
+
+    private void processSelectedAnswer(int buttonNumber) {
+
+    }
+
+    /**
+     * Refreshes the view controls based on the specified model.
+     */
+    private void refreshView() {
+
+        List<Answer> myCurrentAnswers = mCurrentQuestion.getAnswers();
+
+        Button myCurrentButton;
+        Answer myCurrentAnswer;
+
+        boolean hasASelection = false;
+
+        // Update the question text.
+        mQuestionTextView.setText(mCurrentQuestion.getQuestionTextResourceId());
+
+        for (int i = 0; i < myCurrentAnswers.size(); i++) {
+            myCurrentAnswer = myCurrentAnswers.get(i);
+            myCurrentButton = mAnswerButtons.get(i);
+
+            myCurrentButton.setText(myCurrentAnswer.getTextResourceId());
+
+            if (myCurrentAnswer.isEnabled()) {
+                enableButton(myCurrentButton);
+
+                if (myCurrentAnswer.isSelected()) {
+
+                    hasASelection = true;
+
+                    setSelectedButtonStyle(myCurrentButton);
+                } else {
+                    setDefaultButtonStyle(myCurrentButton);
+                }
+
+            } else {
+                disableButton(myCurrentButton);
+            }
+        }
+
+        if (mCurrentQuestion.getHintsGiven() >= MAX_NUMBER_OF_HINTS_PER_QUESTION) {
+            disableButton(mHintButton);
+        } else {
+            enableButton(mHintButton);
+        }
+
+        if (hasASelection) {
+            enableButton(mSubmitButton);
+        }
+    }
+
+    private void refreshQuestionText(String questionText) {
+        mQuestionTextView.setText(questionText);
+    }
+
+    private void displayNextQuestion(Question question) {
+
+    }
+
     private void establishButton(Button button) {
 
     }
 
+    /**
+     * Processes the event request of getting a hint.
+     */
+    private void processHintRequest() {
+        List<Answer> myCurrentAnswers = mCurrentQuestion.getAnswers();
+
+        Random random = new Random();
+
+        int answerToDisable;
+        boolean answerDisabled = false;
+
+        do {
+
+            answerToDisable = random.nextInt((MAX_NUMBER_OF_HINTS_PER_QUESTION - 1) + 1) + 1;
+            if (myCurrentAnswers.get(answerToDisable).isEnabled()) {
+                myCurrentAnswers.get(answerToDisable).setEnabled(false);
+                answerDisabled = true;
+                mCurrentQuestion.addHint();
+            }
+
+        } while (!answerDisabled);
+
+        refreshView();
+    }
+
     private void disableButton(Button button) {
         button.setEnabled(false);
+        button.getBackground().clearColorFilter();
+        button.setTextColor(DISABLED_BUTTON_TEXT_COLOR);
     }
 
     private void enableButton(Button button) {
         button.setEnabled(true);
-    }
-
-    private void selectAnswerButton(int n) {
-        Button myButton;
-
-        for (Answer myAnswer : mAnswers) {
-            myButton = myAnswer.getButton();
-            setDefaultButtonStyle(myButton);
-        }
-
-        myButton = mAnswers.get(n).getButton();
-        setSelectedButtonStyle(myButton);
+        button.getBackground().setColorFilter(DEFAULT_BUTTON_COLOR, PorterDuff.Mode.MULTIPLY);
+        button.setTextColor(DEFAULT_BUTTON_TEXT_COLOR);
     }
 
     private void setDefaultButtonStyle(Button button) {

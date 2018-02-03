@@ -1,6 +1,6 @@
 package org.kicks_ass.phanku.multiquiz;
 
-import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author Joseph Pahl <phanku@vt.edu>
@@ -11,45 +11,37 @@ import java.util.ArrayList;
 public class Question {
 
     // The question
-    private String mQuestion;
+    private int mQuestionTextResourceId;
     // A list of the possible answers.
-    private ArrayList<String> mAnswers;
-    // The index within the list of answers that is the correct answer.
-    private int mCorrectAnswer;
+    private List<Answer> mAnswers;
+    // The number of hints given to the user on this question.
+    private int mHintsGiven;
+    // A flag to determine if the user answered the question correctly.
+    private boolean answeredCorrectly;
 
     /**
      * Constructor
      * @param question
      * @param answers
-     * @param correctAnswer
      */
-    public Question(String question, ArrayList<String> answers, int correctAnswer) {
-        this.mQuestion = question;
-        this.mAnswers = answers;
-        this.mCorrectAnswer = correctAnswer;
+    public Question(int question, List<Answer> answers) {
+        mQuestionTextResourceId = question;
+        mAnswers = answers;
     }
 
     /**
      * Returns the question text.
-     * @return
+     * @return The question text.
      */
-    public String getQuestion() {
-        return mQuestion;
-    }
-
-    /**
-     * Sets the question text.
-     * @param question
-     */
-    public void setQuestion(String question) {
-        mQuestion = question;
+    public int getQuestionTextResourceId() {
+        return mQuestionTextResourceId;
     }
 
     /**
      * Returns the list of possible answers.
-     * @return
+     * @return The list of answers.
      */
-    public ArrayList<String> getAnswers() {
+    public List<Answer> getAnswers() {
         return mAnswers;
     }
 
@@ -57,23 +49,40 @@ public class Question {
      * Sets the list of possible answers.
      * @param answers
      */
-    public void setAnswers(ArrayList<String> answers) {
+    public void setAnswers(List<Answer> answers) {
         mAnswers = answers;
     }
 
     /**
-     * Returns the index of the correct answer within th e list of answers.
-     * @return
+     * Returns the number of hints that was provided on this question.
+     * @return The number of hints.
      */
-    public int getCorrectAnswer() {
-        return mCorrectAnswer;
+    public int getHintsGiven() {
+        return mHintsGiven;
     }
 
     /**
-     * Sets the index within the list of possible answers that is the correct answer.
-     * @param correctAnswer
+     * Increases the hint count by one.
      */
-    public void setCorrectAnswer(int correctAnswer) {
-        mCorrectAnswer = correctAnswer;
+    public void addHint() {
+        mHintsGiven++;
+    }
+
+    /**
+     * Returns true if, and only if, the question has been answered correctly.
+     *
+     * @return True if, and only if, the question has been answered correctly.
+     */
+    public boolean isAnsweredCorrectly() {
+        return answeredCorrectly;
+    }
+
+    /**
+     * Sets if question has been answered correctly.
+     *
+     * @param answeredCorrectly
+     */
+    public void setAnsweredCorrectly(boolean answeredCorrectly) {
+        this.answeredCorrectly = answeredCorrectly;
     }
 }

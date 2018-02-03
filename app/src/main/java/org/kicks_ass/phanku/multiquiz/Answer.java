@@ -1,7 +1,5 @@
 package org.kicks_ass.phanku.multiquiz;
 
-import android.widget.Button;
-
 /**
  * @author Joseph Pahl <phanku@vt.edu>
  * @copyright Joseph Pahl, All rights reserved.
@@ -10,12 +8,15 @@ import android.widget.Button;
 
 public class Answer {
 
-    private Button mButton;
-    private boolean mSelected;
-    private boolean mCorrect;
+    // Int ID to the button
+    private int mTextResourceId;
 
-    public Answer(Button button, boolean correct) {
-        mButton = button;
+    private boolean mSelected = false;
+    private boolean mCorrect;
+    private boolean mEnabled = true;
+
+    public Answer(int textResourceId, boolean correct) {
+        mTextResourceId = textResourceId;
         mCorrect = correct;
     }
 
@@ -23,12 +24,8 @@ public class Answer {
         mSelected = true;
     }
 
-    public void deselct() {
+    public void deselect() {
         mSelected = false;
-    }
-
-    public Button getButton() {
-        return mButton;
     }
 
     public boolean isSelected() {
@@ -37,5 +34,17 @@ public class Answer {
 
     public boolean isCorrect() {
         return mCorrect;
+    }
+
+    public boolean isEnabled() {
+        return mEnabled;
+    }
+
+    public void setEnabled(boolean enabled) {
+        mEnabled = enabled;
+    }
+
+    public int getTextResourceId() {
+        return mTextResourceId;
     }
 }
