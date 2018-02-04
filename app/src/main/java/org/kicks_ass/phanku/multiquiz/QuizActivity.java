@@ -1,5 +1,6 @@
 package org.kicks_ass.phanku.multiquiz;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.support.v7.app.AppCompatActivity;
@@ -206,7 +207,9 @@ public class QuizActivity extends AppCompatActivity {
             refreshView();
 
         } else {
+            Intent intent = new Intent(QuizActivity.this, ResultsActivity.class);
 
+            startActivity(intent);
         }
     }
 
@@ -272,6 +275,8 @@ public class QuizActivity extends AppCompatActivity {
 
         if (hasASelection) {
             enableButton(mSubmitButton);
+        } else {
+            disableButton(mSubmitButton);
         }
     }
 
