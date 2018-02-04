@@ -207,8 +207,7 @@ public class QuizActivity extends AppCompatActivity {
             refreshView();
 
         } else {
-            Intent intent = new Intent(QuizActivity.this, ResultsActivity.class);
-
+            Intent intent = ResultsActivity.newIntent(QuizActivity.this, mScore);
             startActivity(intent);
         }
     }

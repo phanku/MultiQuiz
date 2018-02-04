@@ -30,8 +30,8 @@
     <string name="question_answer_3_3">17</string>
 
     <string name="results_total_title_label">Results</string>
-    <string name="results_total_questions_label">Total Questions</string>
-    <string name="results_total_correct_label">Total Correct</string>
+    <string name="results_total_questions_label">Total Questions:</string>
+    <string name="results_total_correct_label">Total Correct:</string>
     <string name="results_total_hints_used_label">Hints Used:</string>
     <string name="title_activity_results">ResultsActivity</string>
 
