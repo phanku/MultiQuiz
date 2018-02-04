@@ -54,11 +54,10 @@
                 android:orientation="horizontal">
 
                 <TextView
-                    android:id="@+id/textView3"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:paddingRight="5sp"
+                    android:paddingRight="10sp"
                     android:text="@string/results_total_questions_label"
                     android:textSize="24sp"
                     tools:text="Total Questions:" />
@@ -79,11 +78,10 @@
                 android:orientation="horizontal">
 
                 <TextView
-                    android:id="@+id/textView3"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:paddingRight="5sp"
+                    android:paddingRight="10sp"
                     android:text="@string/results_total_correct_label"
                     android:textSize="24sp"
                     tools:text="Total Correct:" />
@@ -108,7 +106,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:paddingRight="5sp"
+                    android:paddingRight="10sp"
                     android:text="@string/results_total_hints_used_label"
                     android:textSize="24sp"
                     tools:text="Hints Used:" />
