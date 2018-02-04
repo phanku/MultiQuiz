@@ -10,24 +10,29 @@
     <string name="question_answer_0_2">-40</string>
     <string name="question_answer_0_3">+100</string>
 
-    <string name="question_1">What temperature is the same in Celsius and Fahrenheit?</string>
-    <string name="question_answer_1_0">+40</string>
-    <string name="question_answer_1_1">0</string>
-    <string name="question_answer_1_2">-40</string>
-    <string name="question_answer_1_3">+100</string>
+    <string name="question_1">How many squares are in normal Monopoly board?</string>
+    <string name="question_answer_1_0">20</string>
+    <string name="question_answer_1_1">40</string>
+    <string name="question_answer_1_2">60</string>
+    <string name="question_answer_1_3">80</string>
 
 
-    <string name="question_2">What temperature is the same in Celsius and Fahrenheit?</string>
-    <string name="question_answer_2_0">+40</string>
-    <string name="question_answer_2_1">0</string>
-    <string name="question_answer_2_2">-40</string>
-    <string name="question_answer_2_3">+100</string>
+    <string name="question_2">What is the largest planet of our Solar System called?</string>
+    <string name="question_answer_2_0">Earth</string>
+    <string name="question_answer_2_1">Uranus</string>
+    <string name="question_answer_2_2">Saturn</string>
+    <string name="question_answer_2_3">Jupiter</string>
 
-    <string name="question_3">What temperature is the same in Celsius and Fahrenheit?</string>
-    <string name="question_answer_3_0">+40</string>
-    <string name="question_answer_3_1">0</string>
-    <string name="question_answer_3_2">-40</string>
-    <string name="question_answer_3_3">+100</string>
+    <string name="question_3">How many days can a flu virus live in bills?</string>
+    <string name="question_answer_3_0">2</string>
+    <string name="question_answer_3_1">8</string>
+    <string name="question_answer_3_2">14</string>
+    <string name="question_answer_3_3">17</string>
 
+    <string name="results_total_title_label">Results</string>
+    <string name="results_total_questions_label">Total Questions</string>
+    <string name="results_total_correct_label">Total Correct</string>
+    <string name="results_total_hints_used_label">Hints Used:</string>
+    <string name="title_activity_results">ResultsActivity</string>
 
 </resources>

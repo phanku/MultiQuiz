@@ -11,6 +11,7 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
 
@@ -27,7 +28,6 @@ public class QuizActivity extends AppCompatActivity {
     private static final int DISABLED_BUTTON_TEXT_COLOR = Color.GRAY;
     private static final int MAX_NUMBER_OF_HINTS_PER_QUESTION = 3;
 
-
     // -- Model -- //
 
     // The question bank.
@@ -39,8 +39,11 @@ public class QuizActivity extends AppCompatActivity {
     // The current question.
     private Question mCurrentQuestion;
 
+    // Iterator to keep track of what has been displayed.
+    private Iterator<Question> mQuestionIterator;
+
     //
-    private Score mScore = new Score();
+    private Score mScore;
 
 
     // -- View -- //
@@ -112,7 +115,6 @@ public class QuizActivity extends AppCompatActivity {
 
         question = new Question(R.string.question_0, answers);
 
-        mCurrentQuestion = question;
         mQuestionBank.add(question);
 
         answers = Arrays.asList(
@@ -129,8 +131,8 @@ public class QuizActivity extends AppCompatActivity {
         answers = Arrays.asList(
                 new Answer(R.string.question_answer_2_0, false),
                 new Answer(R.string.question_answer_2_1, false),
-                new Answer(R.string.question_answer_2_2, true),
-                new Answer(R.string.question_answer_2_3, false)
+                new Answer(R.string.question_answer_2_2, false),
+                new Answer(R.string.question_answer_2_3, true)
         );
 
         question = new Question(R.string.question_2, answers);
@@ -140,13 +142,19 @@ public class QuizActivity extends AppCompatActivity {
         answers = Arrays.asList(
                 new Answer(R.string.question_answer_3_0, false),
                 new Answer(R.string.question_answer_3_1, false),
-                new Answer(R.string.question_answer_3_2, true),
-                new Answer(R.string.question_answer_3_3, false)
+                new Answer(R.string.question_answer_3_2, false),
+                new Answer(R.string.question_answer_3_3, true)
         );
 
         question = new Question(R.string.question_3, answers);
 
         mQuestionBank.add(question);
+
+        mScore = new Score(mQuestionBank.size());
+
+        mQuestionIterator = mQuestionBank.iterator();
+
+        mCurrentQuestion = mQuestionIterator.next();
 
         refreshView();
     }
@@ -181,10 +189,32 @@ public class QuizActivity extends AppCompatActivity {
         Log.d(TAG, "onDestroy() called");
     }
 
+    /**
+     * Executes when the user taps on the submit button.
+     */
     private void processQuestionSubmission() {
 
+        for (Answer myAnswer : mCurrentQuestion.getAnswers()) {
+            if (myAnswer.isSelected() && myAnswer.isCorrect()) {
+                mScore.increaseCorrectCount();
+            }
+        }
+
+        if (mQuestionIterator.hasNext()) {
+
+            mCurrentQuestion = mQuestionIterator.next();
+            refreshView();
+
+        } else {
+
+        }
     }
 
+    /**
+     * Executed when the user taps on one of the answer buttons.
+     *
+     * @param buttonNumber The index number of the button.
+     */
     private void processSelectedAnswer(int buttonNumber) {
 
         for (Answer myAnswer : mCurrentQuestion.getAnswers()) {
@@ -245,18 +275,6 @@ public class QuizActivity extends AppCompatActivity {
         }
     }
 
-    private void refreshQuestionText(String questionText) {
-        mQuestionTextView.setText(questionText);
-    }
-
-    private void displayNextQuestion(Question question) {
-
-    }
-
-    private void establishButton(Button button) {
-
-    }
-
     /**
      * Processes the event request of getting a hint.
      */
@@ -270,13 +288,15 @@ public class QuizActivity extends AppCompatActivity {
         boolean answerDisabled = false;
 
         do {
-            myCurrentAnswer = myCurrentAnswers.get(answerToDisable);
-            answerToDisable = random.nextInt((MAX_NUMBER_OF_HINTS_PER_QUESTION - 1) + 1) + 1;
+            answerToDisable = random.nextInt(((myCurrentAnswers.size() - 1) - 0) + 1);
 
-            if (!myCurrentAnswer.isCorrect() && myCurrentAnswer.isEnabled()) {
+            myCurrentAnswer = myCurrentAnswers.get(answerToDisable);
+
+            if (myCurrentAnswer.isEnabled() && !myCurrentAnswer.isCorrect()) {
                 myCurrentAnswers.get(answerToDisable).setEnabled(false);
                 answerDisabled = true;
                 mCurrentQuestion.addHint();
+                mScore.increaseHintsCount();
             }
 
         } while (!answerDisabled);
@@ -284,23 +304,39 @@ public class QuizActivity extends AppCompatActivity {
         refreshView();
     }
 
+    /**
+     * Disables a button on the view.
+     * @param button The button to disable.
+     */
     private void disableButton(Button button) {
         button.setEnabled(false);
         button.getBackground().clearColorFilter();
         button.setTextColor(DISABLED_BUTTON_TEXT_COLOR);
     }
 
+    /**
+     * Enables a button on the view.
+     * @param button The button to enable.
+     */
     private void enableButton(Button button) {
         button.setEnabled(true);
         button.getBackground().setColorFilter(DEFAULT_BUTTON_COLOR, PorterDuff.Mode.MULTIPLY);
         button.setTextColor(DEFAULT_BUTTON_TEXT_COLOR);
     }
 
+    /**
+     * Sets the default look of the specified button.
+     * @param button The button
+     */
     private void setDefaultButtonStyle(Button button) {
         button.getBackground().setColorFilter(DEFAULT_BUTTON_COLOR, PorterDuff.Mode.MULTIPLY);
         button.setTextColor(DEFAULT_BUTTON_TEXT_COLOR);
     }
 
+    /**
+     * Sets the selected look of the specified button.
+     * @param button The button.
+     */
     private void setSelectedButtonStyle(Button button) {
         button.getBackground().setColorFilter(SELECTED_BUTTON_COLOR, PorterDuff.Mode.MULTIPLY);
         button.setTextColor(SELECTED_BUTTON_TEXT_COLOR);

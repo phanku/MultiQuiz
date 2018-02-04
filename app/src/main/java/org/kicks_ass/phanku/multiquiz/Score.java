@@ -8,12 +8,12 @@ package org.kicks_ass.phanku.multiquiz;
 
 public class Score {
 
-    private int mTotalQuestions = 1;
+    private int mTotalQuestions;
     private int mTotalCorrect = 0;
     private int mTotalHints = 0;
 
-    public void increaseQuestionCount() {
-        mTotalQuestions++;
+    public Score(int totalQuestions) {
+        mTotalQuestions = totalQuestions;
     }
 
     public void increaseCorrectCount() {
